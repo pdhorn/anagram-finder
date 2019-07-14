@@ -59,6 +59,6 @@ class anagram_finder():
 
         anagram_dict = {}
         for anagram in anagrams:
-            anagram_dict[len(anagram)] = anagram_dict.get(len(anagram), []).append(anagram)
+            anagram_dict[len(anagram)] = anagram_dict.get(len(anagram), [])+[anagram]
 
         return(anagram_dict)
