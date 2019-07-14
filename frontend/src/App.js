@@ -8,8 +8,9 @@ const App = () => {
   const [anagrams, setAnagrams] = useState([]);
 
   const refreshList = () => {
+    console.log("http://localhost:5000/anagram?stem="+stem);
     axios
-      .get("http://localhost:5000/anagram?stem={stem}")
+      .get("http://localhost:5000/anagram?stem="+stem)
       .then(res => setAnagrams(res.data))
       .catch(err => console.log(err));
     console.log(anagrams);
@@ -17,6 +18,7 @@ const App = () => {
 
   const updateStem = (event) => {
     setStem(event.target.value);
+    console.log(stem);
     refreshList();
     
   }
