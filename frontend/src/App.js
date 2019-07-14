@@ -3,23 +3,26 @@ import axios from 'axios';
 import logo from './peterh-indeed-1.jpg';
 import './App.css';
 
+const DisplayAnagrams = (words) => {
+  const sortedKeys = Object.keys(words).sort().reverse();
+  const listItems = sortedKeys.map((key) => <div><h3>{key} letter words</h3><ul>{words[key].map((word) => <li>{word}</li>)}</ul></div>)
+  return (listItems)
+}
+
 const App = () => {
   const [stem, setStem] = useState('');
   const [anagrams, setAnagrams] = useState([]);
 
-  const refreshList = () => {
-    console.log("http://localhost:5000/anagram?stem="+stem);
+  const refreshList = (value) => {
     axios
-      .get("http://localhost:5000/anagram?stem="+stem)
+      .get("http://localhost:5000/anagram?stem="+value)
       .then(res => setAnagrams(res.data))
       .catch(err => console.log(err));
-    console.log(anagrams);
   };
 
   const updateStem = (event) => {
     setStem(event.target.value);
-    console.log(stem);
-    refreshList();
+    refreshList(event.target.value);
     
   }
 
@@ -32,9 +35,8 @@ const App = () => {
         </p>
         <div>
           <input value={stem} onChange={updateStem}/>
-          <button>scramble</button>
         </div>
-        {/* <Anagrams /> */}
+        {DisplayAnagrams(anagrams)}
       </header>
     </div>
   );
