@@ -57,4 +57,8 @@ class anagram_finder():
 
         anagrams.sort(key=lambda item: (len(item), item))
 
-        return(anagrams)
+        anagram_dict = {}
+        for anagram in anagrams:
+            anagram_dict[len(anagram)] = anagram_dict.get(len(anagram), []).append(anagram)
+
+        return(anagram_dict)
