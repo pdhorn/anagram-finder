@@ -1,26 +1,23 @@
-# import sys
-# sys.setrecursionlimit(4000)
-
 from collections import Counter
 from copy import deepcopy
 
 with open('/usr/share/dict/words', 'r') as file:
-    words = file.readlines()
-    words = [word.strip('\n').lower() for word in words]
-    words = list(filter(lambda x: len(x) > 2, words))
+    os_word_list = file.readlines()
+    os_word_list = [word.strip('\n').lower() for word in os_word_list]
+    os_word_list = list(filter(lambda x: len(x) > 2, os_word_list))
 
-word_dict = {word:1 for word in words}
+word_lookup = {word:1 for word in os_word_list}
 
-subs = {}
-for word in words:
+starts_of_words = {}
+for word in os_word_list:
     for ind in range(1,len(word)+1):
-        subs[word[:ind]] = 1
+        starts_of_words[word[:ind]] = 1
 
-class anagram_finder():
+class AnagramFinder():
     def __init__(self, seed):
         self.seed = seed
     
-    def calculate(self):
+    def get_anagrams(self):
         seed = self.seed
 
         if len(seed) > 10:
@@ -34,7 +31,7 @@ class anagram_finder():
         for ind in range(len(seed)):
             ltr, tmp =  seed[ind], dict(Counter(seed[:ind]+seed[ind+1:]))
             nexts.append((ltr, tmp))
-            if word_dict.get(ltr):
+            if word_lookup.get(ltr):
                 anagrams[ltr] = 1
 
         while len(nexts) > 0:
@@ -43,8 +40,8 @@ class anagram_finder():
             for item in nexts:
                 for next_letter in item[1].keys():
                     next_stem = item[0]+next_letter
-                    if subs.get(next_stem):
-                        if word_dict.get(next_stem):
+                    if starts_of_words.get(next_stem):
+                        if word_lookup.get(next_stem):
                             anagrams[next_stem] = 1
                         new_dict = deepcopy(item[1])
                         new_dict[next_letter] = new_dict[next_letter] - 1
@@ -55,10 +52,12 @@ class anagram_finder():
 
         anagrams = list(anagrams.keys())
 
-        anagrams.sort(key=lambda item: (len(item), item))
+        return anagrams
 
-        anagram_dict = {}
-        for anagram in anagrams:
-            anagram_dict[len(anagram)] = anagram_dict.get(len(anagram), [])+[anagram]
+    def anagrams_by_length(self):
+        length_to_anagrams = {}
+        for anagram in self.get_anagrams():
+            prev_val = length_to_anagrams.get(len(anagram), [])
+            length_to_anagrams[len(anagram)] = prev_val + [anagram]
 
-        return(anagram_dict)
+        return(length_to_anagrams)
