@@ -1,5 +1,7 @@
 # anagram-finder
 
+Repo at https://github.com/pdhorn/anagram-finder
+
 This is a simple webapp that displays anagrams of a string of letters as you type.  For example, if you type 'cytsim', it will display 'mystic', 'mist', 'cyst', 'sit', etc.
 
 The front end is in React (with Hooks). Flask serves an API endpoint that accepts GET requests, and a homemade Python script calculates the anagrams.
