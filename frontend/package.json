@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "axios": "^1.18.0",
+    "axios": "^1.20.0",
     "lodash": "^4.17.21",
     "lodash.template": "^4.5.0",
     "react": "^16.8.6",
